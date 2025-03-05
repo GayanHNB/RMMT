@@ -1,0 +1,290 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remittance Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+        .country-code {
+            width: 50px;
+            text-align: center;
+            border: none;
+            background-color: #f1f1f1;
+            font-weight: bold;
+        }
+        .local-number {
+            width: calc(100% - 60px);
+        }
+        .country-code-container {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Remittance Form</h2>
+    <form action="#" method="post">
+        <div class="form-group">
+            <label for="reference">Reference</label>
+            <input type="text" id="reference" name="reference" readonly>
+        </div>
+        <div class="form-group">
+            <label for="usd-rate">Today's Rate</label>
+            <input type="number" id="usd-rate" name="usd-rate" required oninput="calculateCharges()">
+        </div>
+        <div class="form-group">
+            <label for="amount-lkr">Amount in LKR</label>
+            <input type="number" id="amount-lkr" name="amount-lkr" required oninput="calculateCharges()">
+        </div>
+        <div class="form-group">
+            <label for="charges-usd">Charges (Fee) in USD</label>
+            <input type="number" id="charges-usd" name="charges-usd" readonly>
+        </div>
+        <div class="form-group">
+            <label for="amount-usd">Amount in USD</label>
+            <input type="number" id="amount-usd" name="amount-usd" readonly>
+        </div>
+        <div class="form-group">
+            <label for="total-amount">Total Amount (USD)</label>
+            <input type="number" id="total-amount" name="total-amount" readonly>
+        </div>
+        <div class="form-group">
+            <label for="beneficiary-bank">Beneficiary's Bank</label>
+            <select id="beneficiary-bank" name="beneficiary-bank" required>
+                <option value="" disabled selected>Select a bank</option>
+                <option value="Hatton National Bank PLC">Hatton National Bank PLC</option>
+                <option value="Amana Bank PLC">Amana Bank PLC</option>
+                <option value="Bank of Ceylon">Bank of Ceylon</option>
+                <option value="Bank of China Ltd">Bank of China Ltd</option>
+                <option value="Cargills Bank PLC">Cargills Bank PLC</option>
+                <option value="Citibank N.A.">Citibank N.A.</option>
+                <option value="Commercial Bank of Ceylon PLC">Commercial Bank of Ceylon PLC</option>
+                <option value="Deutsche Bank AG">Deutsche Bank AG</option>
+                <option value="DFCC Bank PLC">DFCC Bank PLC</option>
+                <option value="Habib Bank Ltd">Habib Bank Ltd</option>
+                <option value="Indian Bank">Indian Bank</option>
+                <option value="Indian Overseas Bank">Indian Overseas Bank</option>
+                <option value="MCB Bank Ltd">MCB Bank Ltd</option>
+                <option value="National Development Bank PLC">National Development Bank PLC</option>
+                <option value="Nations Trust Bank PLC">Nations Trust Bank PLC</option>
+                <option value="Pan Asia Banking Corporation PLC">Pan Asia Banking Corporation PLC</option>
+                <option value="People's Bank">People's Bank</option>
+                <option value="Public Bank Berhad">Public Bank Berhad</option>
+                <option value="Sampath Bank PLC">Sampath Bank PLC</option>
+                <option value="Seylan Bank PLC">Seylan Bank PLC</option>
+                <option value="Standard Chartered Bank">Standard Chartered Bank</option>
+                <option value="State Bank of India">State Bank of India</option>
+                <option value="Union Bank of Colombo PLC">Union Bank of Colombo PLC</option>
+                <option value="HDFC Bank">Housing Development Finance Corporation Bank of Sri Lanka (HDFC Bank)</option>
+                <option value="Lankaputhra Development Bank Ltd">Lankaputhra Development Bank Ltd</option>
+                <option value="National Savings Bank">National Savings Bank</option>
+                <option value="Pradeshiya Sanwardhana Bank">Pradeshiya Sanwardhana Bank (Regional Development Bank)</option>
+                <option value="Sanasa Development Bank PLC">Sanasa Development Bank PLC</option>
+                <option value="Sri Lanka Savings Bank Ltd">Sri Lanka Savings Bank Ltd</option>
+                <option value="State Mortgage & Investment Bank">State Mortgage & Investment Bank</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="beneficiary-account">Beneficiary's Account Number</label>
+            <input type="text" id="beneficiary-account" name="beneficiary-account" required>
+        </div>
+        <div class="form-group">
+            <label for="beneficiary-name">Beneficiary's Name</label>
+            <input type="text" id="beneficiary-name" name="beneficiary-name" required>
+        </div>
+            <div class="form-group">
+            <label for="beneficiary-name">Remitter's Name</label>
+            <input type="text" id="Remitter-name" name="beneficiary-name" required>
+        </div>
+        <div class="form-group">
+            <label for="remitter-country">Remitter's Country</label>
+            <select id="remitter-country" name="remitter-country" required onchange="updateCountryCode()">
+                <option value="" disabled selected>Select country</option>
+                <option value="Maldives">Maldives</option>
+                <option value="USA">USA</option>
+                <option value="UAE">UAE</option>
+                <option value="India">India</option>
+                <option value="Israel">Israel</option>
+                <option value="Romania">Romania</option>
+                <option value="South Africa">South Africa</option>
+                <option value="Germany">Germany</option>
+                <option value="Italy">Italy</option>
+                <option value="Canada">Canada</option>
+                <option value="Australia">Australia</option>
+                <option value="Singapore">Singapore</option>
+                <option value="Malaysia">Malaysia</option>
+                <option value="South Korea">South Korea</option>
+                <option value="Cyprus">Cyprus</option>
+                <option value="Switzerland">Switzerland</option>
+                <option value="Japan">Japan</option>
+                <option value="Norway">Norway</option>
+                <option value="Sweden">Sweden</option>
+                <option value="Turkey">Turkey</option>
+                <option value="Bahrain">Bahrain</option>
+                <option value="Egypt">Egypt</option>
+                <option value="UK">United Kingdom</option>
+                <option value="France">France</option>
+                <option value="Russia">Russia</option>
+                <option value="Bangladesh">Bangladesh</option>
+                <option value="Thailand">Thailand</option>
+                <option value="Indonesia">Indonesia</option>
+                <option value="Philippines">Philippines</option>
+                <option value="Saudi Arabia">Saudi Arabia</option>
+                <option value="Nepal">Nepal</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="remitter-phone">Remitter's Phone Number</label>
+            <div class="country-code-container">
+                <input type="text" id="country-code" class="country-code" disabled>
+                <input type="text" id="remitter-phone" name="remitter-phone" class="local-number" required>
+            </div>
+        </div>
+        <button type="submit" class="submit-btn">Submit</button>
+    </form>
+</div>
+
+<script>
+    // Generate Reference Code based on current date and time
+    document.addEventListener("DOMContentLoaded", function () {
+        const referenceField = document.getElementById("reference");
+        const timestamp = new Date().getTime();
+        referenceField.value = "HNB-" + timestamp;
+    });
+
+    function updateCountryCode() {
+        const countryCodeMap = {
+            Maldives: "+960",
+            USA: "+1",
+            UAE: "+971",
+            India: "+91",
+            Israel: "+972",
+            Romania: "+40",
+            "South Africa": "+27",
+            Germany: "+49",
+            Italy: "+39",
+            Canada: "+1",
+            Australia: "+61",
+            Singapore: "+65",
+            Malaysia: "+60",
+            "South Korea": "+82",
+            Cyprus: "+357",
+            Switzerland: "+41",
+            Japan: "+81",
+            Norway: "+47",
+            Sweden: "+46",
+            Turkey: "+90",
+            Bahrain: "+973",
+            Egypt: "+20",
+            UK: "+44",
+            France: "+33",
+            Russia: "+7",
+            Bangladesh: "+880",
+            Thailand: "+66",
+            Indonesia: "+62",
+            Philippines: "+63",
+            "Saudi Arabia": "+966",
+            Nepal: "+977"
+        };
+
+        const country = document.getElementById("remitter-country").value;
+        const countryCode = countryCodeMap[country] || "";
+        document.getElementById("country-code").value = countryCode;
+    }
+
+    function calculateCharges() {
+        const amountLkr = parseFloat(document.getElementById("amount-lkr").value);
+        const usdRate = parseFloat(document.getElementById("usd-rate").value);
+
+        let chargeUsd = 0;
+
+        // Apply charge based on the amountLkr range
+        if (amountLkr >= 1000 && amountLkr <= 5000) {
+            chargeUsd = 1.00;
+        } else if (amountLkr > 5000 && amountLkr <= 10000) {
+            chargeUsd = 1.00;
+        } else if (amountLkr > 10000 && amountLkr <= 15000) {
+            chargeUsd = 1.50;
+        } else if (amountLkr > 15000 && amountLkr <= 20000) {
+            chargeUsd = 2.00;
+        } else if (amountLkr > 20000 && amountLkr <= 25000) {
+            chargeUsd = 2.50;
+        } else if (amountLkr > 25000 && amountLkr <= 50000) {
+            chargeUsd = 3.00;
+        } else if (amountLkr > 50000 && amountLkr <= 70000) {
+            chargeUsd = 5.50;
+        } else if (amountLkr > 70000 && amountLkr <= 90000) {
+            chargeUsd = 8.00;
+        } else if (amountLkr > 90000 && amountLkr <= 100000) {
+            chargeUsd = 10.50;
+        }
+
+        const amountUsd = (amountLkr - chargeUsd) / usdRate;
+        const totalAmount = amountUsd + chargeUsd;
+
+        // Update the Charges (Fee) in USD, Amount in USD, and Total Amount (USD)
+        document.getElementById("charges-usd").value = chargeUsd.toFixed(2);
+        document.getElementById("amount-usd").value = amountUsd.toFixed(2);
+        document.getElementById("total-amount").value = totalAmount.toFixed(2);
+    }
+</script>
+
+</body>
+</html>
